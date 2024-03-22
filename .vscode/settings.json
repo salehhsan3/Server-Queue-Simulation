@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.json": "cpp",
+        "*.py": "python",
+        "*.tex": "latex",
+        "algorithm": "cpp"
+    }
+}
