@@ -76,19 +76,6 @@ class InputPort:
     def enqueue_events(self):
         for arr_time in self.arrival_times:
             heapq.heappush(self.queue, Event(arr_time, self.route_event(), self.index))
-    
-    # def generateNextArrivalTime(self):
-    #     # if events are distributed poiison(\lambda) then the difference in arrival rate is distributed exp(1/lambda)
-    #     inter_arrival_time = np.random.exponential(1 / self.arrival_rate) 
-    #     if len(self.arrival_times) > 0:
-    #         current_time = max(self.arrival_times) + inter_arrival_time
-    #     else:
-    #         current_time = self.start_time + inter_arrival_time
-    #     if current_time < self.max_time:
-    #         self.arrival_times.append(current_time)
-    
-    # def enqueue_event(self):
-    #     heapq.heappush(self.queue, Event(self.generateNextArrivalTime(), self.route_event(), self.index))
                 
     def route_event(self):
         chosen_port_index = np.random.choice(self.output_ports_num, p=self.probabilities)
@@ -170,8 +157,7 @@ class Simulator:
             next_output_events = self.get_next_output_events()
             if next_output_events != None:
                 self.process_output_events(next_output_events)
-        avg_wait_time = self.finalize_simulation()
-        return avg_wait_time
+        return self.finalize_simulation()
 
     def is_simulation_finished(self):
         return all(not input_port.queue for input_port in self.input_ports) and all(not output_port.queue for output_port in self.output_ports)
@@ -229,16 +215,6 @@ class Simulator:
         avg_service_time = total_service_time / total_handled_events
         avg_wait_time = total_wait_time / total_handled_events
         
-        # formatted_string = (
-        #         f"Total Handled Events: {total_handled_events}, "
-        #         f"Number of Handled Events per Queue: {num_handled_events_per_queue}, "
-        #         f"Total Thrown Events: {total_thrown_events}, "
-        #         f"Number of Thrown Events per Queue: {num_thrown_events_per_queue}, "
-        #         f"Simulation End Time: {simulation_end_time}, "
-        #         f"Average Wait Time: {avg_wait_time}, "
-        #         f"Average Service Time: {avg_service_time}"
-        #     )
-        # print(formatted_string)
         handled_events_per_queue_str = ' '.join(map(str, num_handled_events_per_queue))
         thrown_events_per_queue_str = ' '.join(map(str, num_thrown_events_per_queue))
         formatted_string = (
@@ -251,7 +227,7 @@ class Simulator:
                 f"{avg_service_time}"
             )
         print(formatted_string)
-        return avg_wait_time
+        return avg_wait_time, avg_service_time
 
 if __name__ == "__main__":
     args = parseArguments()
