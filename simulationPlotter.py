@@ -20,10 +20,10 @@ def plot():
     avg_times_per_run = []
     for T in T_values:
         args = Myargs(T)
+        # args = Myargs(T, queue_sizes=[5]) # change to queue_sizes=[5] for second plot!
         for _ in range(num_runs):
-            # args = Myargs(T, queue_sizes=[5]) # change to queue_sizes=[5] for second plot!
             sim = simulator.Simulator(args.T, args.N, args.M, args.ouput_queue_sizes, args.arrival_rates, args.handling_rates, args.probs)
-            avg_times_per_run.append(sum([x for x in sim.run_simulation()]))
+            avg_times_per_run.append(sum([x for x in sim.runSimulation()]))
         avg_time = np.mean(avg_times_per_run)
         avg_times.append(avg_time)
         
