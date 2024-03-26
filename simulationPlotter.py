@@ -12,15 +12,14 @@ class Myargs:
         self.ouput_queue_sizes = queue_sizes
         self.handling_rates = handling_rates
         
-def plot():
+def plot(queue_sizes):
     num_runs = 10
     T_values = [10, 100, 500, 1000, 1500, 2000, 2500]
 
     avg_times = []
     avg_times_per_run = []
     for T in T_values:
-        args = Myargs(T)
-        # args = Myargs(T, queue_sizes=[5]) # change to queue_sizes=[5] for second plot!
+        args = Myargs(T, queue_sizes)
         for _ in range(num_runs):
             sim = simulator.Simulator(args.T, args.N, args.M, args.ouput_queue_sizes, args.arrival_rates, args.handling_rates, args.probs)
             avg_times_per_run.append(sum([x for x in sim.runSimulation()]))
@@ -38,7 +37,10 @@ def plot():
     plt.ylabel('Average Time [seconds]')
     plt.title('Average Time vs Simulation Time')
     plt.grid(True)
-    plt.show()
+    # plt.show()
+    plt.savefig(f'dry_queue_size={queue_sizes[0]}.png', bbox_inches='tight')
+    plt.clf()
 
 if __name__ == "__main__":
-    plot()
+    plot(queue_sizes=[1000])
+    # plot(queue_sizes=[5])

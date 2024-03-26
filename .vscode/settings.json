@@ -3,6 +3,7 @@
         "*.json": "cpp",
         "*.py": "python",
         "*.tex": "latex",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "sstream": "cpp"
     }
 }
