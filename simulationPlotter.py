@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class Myargs:
-    def __init__(self, T, N=1, M=1, probabilities=[[1]], arrival_rates=[9], queue_sizes=[1000], handling_rates=[12]):
+    def __init__(self, T, queue_sizes, N=1, M=1, probabilities=[[1]], arrival_rates=[9], handling_rates=[12]):
         self.T = T
         self.N = N
         self.M = M
@@ -22,7 +22,7 @@ def plot(queue_sizes):
         args = Myargs(T, queue_sizes)
         for _ in range(num_runs):
             sim = simulator.Simulator(args.T, args.N, args.M, args.ouput_queue_sizes, args.arrival_rates, args.handling_rates, args.probs)
-            avg_times_per_run.append(sum([x for x in sim.runSimulation()]))
+            avg_times_per_run.append(sim.runSimulation()[0])
         avg_time = np.mean(avg_times_per_run)
         avg_times.append(avg_time)
         
@@ -32,9 +32,8 @@ def plot(queue_sizes):
         plt.scatter(T_values[i], avg_times[i], marker='o', color=color, label=f'T = {T_values[i]}')
 
     # Plotting
-    # plt.plot(T_values, avg_wait_times, marker='o')
     plt.xlabel('Simulation Time (T) [seconds]')
-    plt.ylabel('Average Time [seconds]')
+    plt.ylabel('Average (t_w) [seconds]')
     plt.title('Average Time vs Simulation Time')
     plt.grid(True)
     # plt.show()
@@ -43,4 +42,4 @@ def plot(queue_sizes):
 
 if __name__ == "__main__":
     plot(queue_sizes=[1000])
-    # plot(queue_sizes=[5])
+    plot(queue_sizes=[5])

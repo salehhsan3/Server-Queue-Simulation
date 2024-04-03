@@ -121,8 +121,8 @@ class Simulator:
           self.end_time = max(process_end_times)
           
       #collect statistics
-      t_w = self.TotalWaitTime / self.Y
-      t_s = self.TotalServiceTime / self.Y
+      t_w = round(self.TotalWaitTime / self.Y, 2)
+      t_s = round(self.TotalServiceTime / self.Y, 2)
 
       handled_events_per_queue_str = ' '.join(map(str, self.y))
       thrown_events_per_queue_str = ' '.join(map(str, self.x))
